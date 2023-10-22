@@ -13,7 +13,7 @@ locals {
 }
 
 resource "aws_subnet" "public_subnets" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.vpc.id
   count             = length(local.public_subnets)
   cidr_block        = local.public_subnets[count.index]
   availability_zone = local.azs[tostring(count.index + 1)]
@@ -26,7 +26,7 @@ resource "aws_subnet" "public_subnets" {
 }
 
 resource "aws_subnet" "private_subnets" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.vpc.id
   count             = length(local.private_subnets)
   cidr_block        = local.private_subnets[count.index]
   availability_zone = local.azs[tostring(count.index + 1)]
@@ -36,7 +36,7 @@ resource "aws_subnet" "private_subnets" {
 }
 
 resource "aws_subnet" "database_subnets" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.vpc.id
   count             = length(local.database_subnets)
   cidr_block        = local.database_subnets[count.index]
   availability_zone = local.azs[tostring(count.index + 1)]
