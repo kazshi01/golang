@@ -5,7 +5,7 @@ resource "aws_internet_gateway" "igw" {
     Name = "${var.name}-igw"
   }
 }
-
+# Public Subunetに関連付けるルートテーブル
 resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.vpc.id
 
@@ -27,6 +27,7 @@ resource "aws_route_table_association" "public_route_table_assoc" {
 }
 
 
+# Private Subnetに関連付けるルートテーブル
 # NAT Gateway
 resource "aws_eip" "nat_eip" {
   count = var.create_nat_gateway ? 1 : 0 # var.create_nat_gatewayがtrueのとき1、falseのとき0
@@ -64,4 +65,20 @@ resource "aws_route_table_association" "private_route_table_assoc" {
   count          = length(aws_subnet.private_subnets)
   subnet_id      = aws_subnet.private_subnets[count.index].id
   route_table_id = aws_route_table.private_route_table.id
+}
+
+# Database Subnetに関連付けるルートテーブル
+
+resource "aws_route_table" "database_route_table" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = "${var.name}-database-route-table"
+  }
+}
+
+resource "aws_route_table_association" "database_route_table_assoc" {
+  count          = length(aws_subnet.database_subnets)
+  subnet_id      = aws_subnet.database_subnets[count.index].id
+  route_table_id = aws_route_table.database_route_table.id
 }
