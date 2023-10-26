@@ -21,6 +21,11 @@ variable "container_port" {
   default = 80
 }
 
+variable "assign_public_ip" {
+  type    = bool
+  default = true
+}
+
 #####################
 #        ECR        #
 #####################
