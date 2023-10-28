@@ -1,6 +1,7 @@
+## Service
 resource "aws_security_group" "service_sg" {
   name        = "${var.name}-service-sg"
-  description = "FarGate Service Security Group"
+  description = "Security group for the Service"
   vpc_id      = module.network.vpc_id
 
   ingress {
@@ -19,6 +20,14 @@ resource "aws_security_group" "service_sg" {
   #   cidr_blocks = ["0.0.0.0/0"]
   # }
 
+  ingress {
+    description     = "NFS from EFS"
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
+    security_groups = [module.network.efs_sg_id]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -29,4 +38,14 @@ resource "aws_security_group" "service_sg" {
   tags = {
     Name = "${var.name}-service-sg"
   }
+}
+
+## EFS
+resource "aws_security_group_rule" "efs_sg_ingress" {
+  type                     = "ingress"
+  from_port                = 2049
+  to_port                  = 2049
+  protocol                 = "tcp"
+  security_group_id        = module.network.efs_sg_id
+  source_security_group_id = aws_security_group.service_sg.id
 }
