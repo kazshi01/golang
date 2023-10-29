@@ -81,3 +81,39 @@ resource "aws_iam_role_policy_attachment" "ecs_task_efs_attachment" {
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
 }
+
+## ECS Execコマンド用の権限を付与する
+resource "aws_iam_policy" "ecs_execute_command_policy" {
+  name        = "ecs_execute_command_policy"
+  description = "A policy to allow execute-command action"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel",
+          "logs:CreateLogStream",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Action   = "kms:Decrypt",
+        Effect   = "Allow",
+        Resource = "arn:aws:kms:ap-northeast-1:996109426400:key/0d34acaa-6728-4224-bfb8-25484e7a345f"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_execute_command_policy_attachment" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = aws_iam_policy.ecs_execute_command_policy.arn
+}

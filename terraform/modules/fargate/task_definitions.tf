@@ -17,9 +17,12 @@ resource "aws_ecs_task_definition" "task_definition" {
       mountPoints = [
         {
           sourceVolume  = "service-storage",
-          containerPath = "/opt/data"
+          containerPath = "/opt/data" ## マウント先のパス
         }
       ],
+      # linuxParameters = {
+      #   user = "1000:1000"
+      # },
       portMappings = [
         {
           containerPort = var.container_port

@@ -3,18 +3,22 @@ resource "aws_ecs_service" "ecs_service" {
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = 1
-  # !!!Fargateでは不要!!! Service Role(ELB、Auto Scalingなどとの連携に必要)
+  # !!!Fargateでは下記不要!!! Service Role(ELB、Auto Scalingなどとの連携に必要)
   # iam_role   = aws_iam_role.ecs_service_role.arn
   # depends_on = [aws_iam_role.ecs_service_role]
 
   launch_type = "FARGATE"
+  #execコマンドを実行する場合はtrueにする
+  enable_execute_command = true
 
+  #どのサブネットに配置するか
   network_configuration {
     subnets         = module.network.public_subnet_ids
     security_groups = [aws_security_group.service_sg.id]
     # Private Subnetに配置する場合は、以下の設定をfalseにする
     assign_public_ip = var.assign_public_ip
   }
+
   # !!!Fargateでは不要!!!
   # ordered_placement_strategy {
   #   # CPU未使用率が低いコンテナから配置
