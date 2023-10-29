@@ -107,7 +107,7 @@ resource "aws_iam_policy" "ecs_execute_command_policy" {
       {
         Action   = "kms:Decrypt",
         Effect   = "Allow",
-        Resource = "arn:aws:kms:ap-northeast-1:996109426400:key/0d34acaa-6728-4224-bfb8-25484e7a345f"
+        Resource = "${aws_kms_key.cloudwatch_logs_key.arn}"
       }
     ]
   })
