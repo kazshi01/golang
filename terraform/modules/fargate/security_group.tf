@@ -13,7 +13,7 @@ resource "aws_security_group" "service_sg" {
     security_groups = [module.network.alb_sg]
   }
 
-  # SSM エージェントのための規則が必要な場合は443ポートを追加
+  # SSM エージェントが必要な場合は443ポートを追加（execution-command）
   ingress {
     from_port   = 443
     to_port     = 443

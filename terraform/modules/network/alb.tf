@@ -18,29 +18,29 @@ resource "aws_lb" "alb" {
   }
 }
 
-resource "aws_lb_listener" "http_listener" {
-  load_balancer_arn = aws_lb.alb.arn
-  port              = 80
-  protocol          = "HTTP"
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.target_ip.arn
-  }
-}
-
-# 追加のHTTPSリスナー（ポート443）
-# resource "aws_lb_listener" "https_listener" {
+# resource "aws_lb_listener" "http_listener" {
 #   load_balancer_arn = aws_lb.alb.arn
-#   port              = 443
-#   protocol          = "HTTPS"
-#   ssl_policy        = "ELBSecurityPolicy-2016-08" # 任意でSSLポリシーを指定
-#   certificate_arn   = var.certificate_arn         # ACMなどから取得した証明書のARN
-
+#   port              = 80
+#   protocol          = "HTTP"
 #   default_action {
 #     type             = "forward"
 #     target_group_arn = aws_lb_target_group.target_ip.arn
 #   }
 # }
+
+# 追加のHTTPSリスナー（ポート443）
+resource "aws_lb_listener" "https_listener" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"  # 任意でSSLポリシーを指定
+  certificate_arn   = aws_acm_certificate.cert.arn # ACMなどから取得した証明書のARN
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_ip.arn
+  }
+}
 
 resource "aws_lb_target_group" "target_ip" {
   name        = "${var.name}-target-ip"
