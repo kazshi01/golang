@@ -33,8 +33,8 @@ resource "aws_lb_listener" "https_listener" {
   load_balancer_arn = aws_lb.alb.arn
   port              = 443
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"  # 任意でSSLポリシーを指定
-  certificate_arn   = aws_acm_certificate.cert.arn # ACMなどから取得した証明書のARN
+  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01" # 任意でSSLポリシーを指定
+  certificate_arn   = aws_acm_certificate.tokyo_cert.arn  # ACMなどから取得した証明書のARN
 
   default_action {
     type             = "forward"

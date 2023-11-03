@@ -56,3 +56,11 @@ variable "domain_prefix_alb" {
   type    = string
   default = "alb"
 }
+
+#####################
+#     CROUDFRONT    #
+#####################
+variable "domain_prefix_cloudfront" {
+  type    = string
+  default = "cloudfront"
+}

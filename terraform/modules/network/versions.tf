@@ -11,3 +11,9 @@ terraform {
 provider "aws" {
   region = var.region
 }
+
+# Region for Create ACM in Virginia
+provider "aws" {
+  region = "us-east-1"
+  alias  = "useast1"
+}
