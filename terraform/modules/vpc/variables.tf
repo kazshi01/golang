@@ -1,18 +1,15 @@
 variable "name" {
-  type    = string
-  default = "terraform"
+  type = string
 }
 variable "region" {
-  type    = string
-  default = "ap-northeast-1"
+  type = string
 }
 
 #####################
 #       VPC         #
 #####################
 variable "vpc_cidr" {
-  type    = string
-  default = "10.0.0.0/16"
+  type = string
 }
 
 #####################
@@ -20,6 +17,5 @@ variable "vpc_cidr" {
 #####################
 
 variable "create_nat_gateway" {
-  type    = bool
-  default = false
+  type = bool
 }

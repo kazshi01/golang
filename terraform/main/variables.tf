@@ -46,6 +46,27 @@ variable "enable_deletion_protection" {
 }
 
 #####################
+#      ROUTE53      #
+#####################
+
+variable "domain_name" {
+  type    = string
+  default = "marukome0909.com"
+}
+variable "domain_prefix_alb" {
+  type    = string
+  default = "alb"
+}
+
+#####################
+#     CROUDFRONT    #
+#####################
+variable "domain_prefix_cloudfront" {
+  type    = string
+  default = "cloudfront"
+}
+
+#####################
 #      SERVICE      #
 #####################
 variable "container_name" {

@@ -8,5 +8,8 @@ module "network" {
   environment                = var.environment
   internal                   = var.internal
   enable_deletion_protection = var.enable_deletion_protection
+  domain_name                = var.domain_name
+  domain_prefix_alb          = var.domain_prefix_alb
+  domain_prefix_cloudfront   = var.domain_prefix_cloudfront
 
 }

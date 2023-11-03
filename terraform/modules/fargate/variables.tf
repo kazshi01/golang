@@ -1,19 +1,16 @@
 variable "name" {
-  type    = string
-  default = "terraform"
+  type = string
 }
 
 variable "region" {
-  type    = string
-  default = "ap-northeast-1"
+  type = string
 }
 
 #####################
 #       VPC         #
 #####################
 variable "vpc_cidr" {
-  type    = string
-  default = "10.0.0.0/16"
+  type = string
 }
 
 #####################
@@ -21,8 +18,7 @@ variable "vpc_cidr" {
 #####################
 
 variable "create_nat_gateway" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 #####################
@@ -30,48 +26,57 @@ variable "create_nat_gateway" {
 #####################
 
 variable "environment" {
-  type    = string
-  default = "dev"
+  type = string
 }
 
 variable "internal" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 variable "enable_deletion_protection" {
-  type    = bool
-  default = false
+  type = bool
+}
 
+#####################
+#      ROUTE53      #
+#####################
+
+variable "domain_name" {
+  type = string
+}
+variable "domain_prefix_alb" {
+  type = string
+}
+
+#####################
+#     CROUDFRONT    #
+#####################
+variable "domain_prefix_cloudfront" {
+  type = string
 }
 
 #####################
 #      SERVICE      #
 #####################
 variable "container_name" {
-  type    = string
-  default = "nginx"
+  type = string
 }
 
 variable "container_port" {
-  type    = number
-  default = 80
+  type = number
 }
 
 variable "assign_public_ip" {
-  type    = bool
-  default = true
+  type = bool
 }
 
 #####################
 #        ECR        #
 #####################
 variable "ecr_name" {
-  type    = string
-  default = "dev/practice"
+  type = string
 }
 
 variable "image_tag" {
-  type    = string
-  default = "8"
+  type = string
 }

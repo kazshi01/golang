@@ -1,19 +1,16 @@
 variable "name" {
-  type    = string
-  default = "terraform"
+  type = string
 }
 
 variable "region" {
-  type    = string
-  default = "ap-northeast-1"
+  type = string
 }
 
 #####################
 #       VPC         #
 #####################
 variable "vpc_cidr" {
-  type    = string
-  default = "10.0.0.0/16"
+  type = string
 }
 
 #####################
@@ -21,27 +18,22 @@ variable "vpc_cidr" {
 #####################
 
 variable "create_nat_gateway" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 #####################
 #       ALB         #
 #####################
 variable "environment" {
-  type    = string
-  default = "dev"
+  type = string
 }
 
 variable "internal" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 variable "enable_deletion_protection" {
-  type    = bool
-  default = false
-
+  type = bool
 }
 
 #####################
@@ -49,18 +41,15 @@ variable "enable_deletion_protection" {
 #####################
 
 variable "domain_name" {
-  type    = string
-  default = "marukome0909.com"
+  type = string
 }
 variable "domain_prefix_alb" {
-  type    = string
-  default = "alb"
+  type = string
 }
 
 #####################
 #     CROUDFRONT    #
 #####################
 variable "domain_prefix_cloudfront" {
-  type    = string
-  default = "cloudfront"
+  type = string
 }
