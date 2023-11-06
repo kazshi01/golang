@@ -19,3 +19,17 @@ variable "vpc_cidr" {
 variable "create_nat_gateway" {
   type = bool
 }
+#####################
+#        RDS        #
+#####################
+variable "db_username" {
+  type = string
+}
+
+variable "db_password" {
+  type = string
+}
+
+variable "skip_final_snapshot" {
+  type = bool
+}

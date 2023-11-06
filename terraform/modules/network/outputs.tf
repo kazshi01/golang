@@ -8,6 +8,9 @@ output "public_subnet_ids" {
 output "private_subnet_ids" {
   value = module.storage.private_subnet_ids
 }
+output "postgres_sg_id" {
+  value = module.storage.postgres_sg_id
+}
 
 output "efs_id" {
   value = module.storage.efs_id

@@ -15,10 +15,19 @@ resource "aws_security_group" "service_sg" {
 
   # SSM エージェントが必要な場合は443ポートを追加（execution-command）
   ingress {
+    description = "SSM Agent for execution-command"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] #運用監視サーバ等の信頼できるIPアドレス範囲を指定
+  }
+
+  ingress {
+    description     = "PostgreSQL from RDS"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [module.network.postgres_sg_id]
   }
 
   ingress {
@@ -39,6 +48,16 @@ resource "aws_security_group" "service_sg" {
   tags = {
     Name = "${var.name}-service-sg"
   }
+}
+
+## RDS
+resource "aws_security_group_rule" "postgres_sg_ingress" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = module.network.postgres_sg_id
+  source_security_group_id = aws_security_group.service_sg.id
 }
 
 ## EFS
