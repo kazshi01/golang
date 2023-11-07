@@ -19,7 +19,8 @@ resource "aws_security_group" "service_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] #運用監視サーバ等の信頼できるIPアドレス範囲を指定
+    cidr_blocks = ["0.0.0.0/0"]
+    # security_groups = [module.network.cloud9_sg_id] #運用監視サーバ(cloud9)等の信頼できるIPアドレス範囲を指定
   }
 
   ingress {
@@ -51,7 +52,7 @@ resource "aws_security_group" "service_sg" {
 }
 
 ## RDS
-resource "aws_security_group_rule" "postgres_sg_ingress" {
+resource "aws_security_group_rule" "default_to_postgres_sg_ingress" {
   type                     = "ingress"
   from_port                = 5432
   to_port                  = 5432
