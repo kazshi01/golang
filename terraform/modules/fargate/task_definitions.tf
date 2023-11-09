@@ -20,6 +20,7 @@ resource "aws_ecs_task_definition" "task_definition" {
           containerPath = "/opt/data" ## マウント先のパス
         }
       ],
+      # コンテナへのユーザー指定
       # linuxParameters = {
       #   user = "1000:1000"
       # },
@@ -28,6 +29,34 @@ resource "aws_ecs_task_definition" "task_definition" {
           containerPort = var.container_port
         }
       ],
+      environment = [
+        {
+          name  = "DATABASE_HOST",
+          value = module.network.postgres_endpoint
+        },
+        {
+          name  = "DATABASE_PORT",
+          value = "5432"
+        },
+        {
+          name  = "DATABASE_USER",
+          value = var.db_username
+        },
+        {
+          name  = "DATABASE_NAME",
+          value = "postgres"
+        },
+        {
+          name  = "DATABASE_PASSWORD",
+          value = var.db_password
+        }
+      ],
+      # secrets = [
+      #   {
+      #     name      = "DATABASE_PASSWORD",
+      #     valueFrom = "arn:aws:secretsmanager:region:aws_account_id:secret:my_db_password_secret" # Secrets ManagerのシークレットのARN
+      #   }
+      # ],
       logConfiguration = {
         logDriver = "awslogs"
         options = {

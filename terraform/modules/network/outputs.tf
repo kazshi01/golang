@@ -12,6 +12,10 @@ output "postgres_sg_id" {
   value = module.storage.postgres_sg_id
 }
 
+output "postgres_endpoint" {
+  value = module.storage.postgres_endpoint
+}
+
 output "efs_id" {
   value = module.storage.efs_id
 }

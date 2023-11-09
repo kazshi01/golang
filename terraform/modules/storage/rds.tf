@@ -1,11 +1,12 @@
 resource "aws_db_instance" "postgres" {
-  identifier             = "${var.name}-postgres"
-  allocated_storage      = 10
-  engine                 = "postgres"
-  engine_version         = "15.3"
-  instance_class         = "db.t3.micro"
-  username               = var.db_username
-  password               = var.db_password
+  identifier        = "${var.name}-postgres"
+  allocated_storage = 10
+  engine            = "postgres"
+  engine_version    = "15.3"
+  instance_class    = "db.t3.micro"
+  username          = var.db_username
+  password          = var.db_password
+  # password = jsondecode(data.aws_secretsmanager_secret_version.db_password.secret_string)["password"]
   parameter_group_name   = "default.postgres15"
   skip_final_snapshot    = var.skip_final_snapshot
   vpc_security_group_ids = [aws_security_group.postgres_sg.id]

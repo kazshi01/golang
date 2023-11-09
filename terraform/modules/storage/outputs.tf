@@ -16,6 +16,10 @@ output "postgres_sg_id" {
   value = aws_security_group.postgres_sg.id
 }
 
+output "postgres_endpoint" {
+  value = aws_db_instance.postgres.endpoint
+}
+
 ## EFS
 output "efs_id" {
   value = aws_efs_file_system.efs.id
