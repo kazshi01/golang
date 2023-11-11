@@ -11,9 +11,10 @@ import (
 
 // NewDb creates a new database connection
 func NewDb() *gorm.DB {
-	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", os.Getenv("DATABASE_USER"),
-		os.Getenv("DATABASE_PASSWORD"), os.Getenv("DATABASE_HOST"),
-		os.Getenv("DATABASE_PORT"), os.Getenv("DATABASE_NAME"))
+	url := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
+		os.Getenv("DATABASE_HOST"), os.Getenv("DATABASE_USER"),
+		os.Getenv("DATABASE_PASSWORD"), os.Getenv("DATABASE_NAME"),
+		os.Getenv("DATABASE_PORT"))
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

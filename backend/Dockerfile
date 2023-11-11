@@ -2,11 +2,13 @@ FROM golang:1.20 AS builder
 
 WORKDIR /app
 
-COPY . .
+COPY ./backend .
 
 RUN go mod download
+# myapp のビルド
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o myapp .
-RUN go build -o migrate_executable migrate/migrate.go
+# migrate_executable のビルド（静的リンク）
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o migrate_executable migrate/migrate.go
 
 FROM alpine:latest  
 
@@ -18,10 +20,10 @@ WORKDIR /root/
 # ビルドしたバイナリファイルをコピー
 COPY --from=builder /app/myapp .
 COPY --from=builder /app/migrate_executable ./migrate_executable
-COPY start.sh ./start.sh
+COPY ./backend/start.sh ./start.sh
 
-# スクリプトを実行可能にする
-RUN chmod +x ./start.sh
+# スクリプトとバイナリの実行可能にする
+RUN chmod +x ./start.sh ./migrate_executable
 
 # ポート番号の指定
 EXPOSE 8080
