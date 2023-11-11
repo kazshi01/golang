@@ -89,12 +89,12 @@ variable "domain_prefix_cloudfront" {
 #####################
 variable "container_name" {
   type    = string
-  default = "nginx"
+  default = "go"
 }
 
 variable "container_port" {
   type    = number
-  default = 80
+  default = 8080
 }
 
 variable "assign_public_ip" {

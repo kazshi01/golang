@@ -13,16 +13,6 @@ resource "aws_security_group" "service_sg" {
     security_groups = [module.network.alb_sg]
   }
 
-  # SSM エージェントが必要な場合は443ポートを追加（execution-command）
-  ingress {
-    description = "SSM Agent for execution-command"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    # security_groups = [module.network.cloud9_sg_id] #運用監視サーバ(cloud9)等の信頼できるIPアドレス範囲を指定
-  }
-
   ingress {
     description     = "PostgreSQL from RDS"
     from_port       = 5432

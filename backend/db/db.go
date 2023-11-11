@@ -5,22 +5,15 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 // NewDb creates a new database connection
 func NewDb() *gorm.DB {
-	if os.Getenv("GO_ENV") == "dev" {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", os.Getenv("POSTGRES_USER"),
-		os.Getenv("POSTGRES_PW"), os.Getenv("POSTGRES_HOST"),
-		os.Getenv("POSTGRES_PORT"), os.Getenv("POSTGRES_DB"))
+	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", os.Getenv("DATABASE_USER"),
+		os.Getenv("DATABASE_PASSWORD"), os.Getenv("DATABASE_HOST"),
+		os.Getenv("DATABASE_PORT"), os.Getenv("DATABASE_NAME"))
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

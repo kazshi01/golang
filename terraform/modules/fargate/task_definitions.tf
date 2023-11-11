@@ -49,12 +49,30 @@ resource "aws_ecs_task_definition" "task_definition" {
         {
           name  = "DATABASE_PASSWORD",
           value = var.db_password
+        },
+        {
+          #ALBのDNS名を環境変数に設定(backendsのDNS名を設定)
+          name  = "API_DOMAIN",
+          value = "${var.domain_prefix_alb}.${var.domain_name}"
+        },
+        {
+          #CloudFrontのDNS名を環境変数に設定(fontendのDNS名を設定)
+          name  = "FE_URL",
+          value = "http://localhost:3000"
+        },
+        {
+          name  = "SECRET",
+          value = "uu5pveql"
         }
       ],
       # secrets = [
       #   {
       #     name      = "DATABASE_PASSWORD",
       #     valueFrom = "arn:aws:secretsmanager:region:aws_account_id:secret:my_db_password_secret" # Secrets ManagerのシークレットのARN
+      #   },
+      #   {
+      #     name      = "SECRET",
+      #     valueFrom = "arn:aws:secretsmanager:region:aws_account_id:secret:server_secret" # Secrets ManagerのシークレットのARN
       #   }
       # ],
       logConfiguration = {
