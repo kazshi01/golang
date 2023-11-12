@@ -18,23 +18,13 @@ resource "aws_lb" "alb" {
   }
 }
 
-# resource "aws_lb_listener" "http_listener" {
-#   load_balancer_arn = aws_lb.alb.arn
-#   port              = 80
-#   protocol          = "HTTP"
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.target_ip.arn
-#   }
-# }
-
-# 追加のHTTPSリスナー（ポート443）
+# HTTPSリスナー（ポート443）
 resource "aws_lb_listener" "https_listener" {
   load_balancer_arn = aws_lb.alb.arn
   port              = 443
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01" # 任意でSSLポリシーを指定
-  certificate_arn   = aws_acm_certificate.tokyo_cert.arn  # ACMなどから取得した証明書のARN
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06" # 任意でSSLポリシーを指定
+  certificate_arn   = aws_acm_certificate.tokyo_cert.arn    # ACMなどから取得した証明書のARN
 
   default_action {
     type             = "forward"
@@ -42,10 +32,39 @@ resource "aws_lb_listener" "https_listener" {
   }
 }
 
+# HTTPSへのリダイレクト（ポート80）
+resource "aws_lb_listener" "http_listener" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
 resource "aws_lb_target_group" "target_ip" {
   name        = "${var.name}-target-ip"
-  port        = 80
+  port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = module.storage.vpc_id
+
+  health_check {
+    enabled             = true
+    interval            = 30
+    path                = "/health"
+    port                = "traffic-port"
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+    timeout             = 5
+    protocol            = "HTTP"
+    matcher             = "200"
+  }
 }

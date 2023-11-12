@@ -5,6 +5,7 @@ module "fargate" {
   region                     = var.region
   vpc_cidr                   = var.vpc_cidr
   create_nat_gateway         = var.create_nat_gateway
+  db_name                    = var.db_name
   db_username                = var.db_username
   db_password                = var.db_password
   skip_final_snapshot        = var.skip_final_snapshot
@@ -15,7 +16,8 @@ module "fargate" {
   domain_prefix_alb          = var.domain_prefix_alb
   domain_prefix_cloudfront   = var.domain_prefix_cloudfront
   container_name             = var.container_name
-  container_port             = var.container_port
+  hostPort                   = var.hostPort
+  containerPort              = var.containerPort
   assign_public_ip           = var.assign_public_ip
   ecr_name                   = var.ecr_name
   image_tag                  = var.image_tag

@@ -26,7 +26,8 @@ resource "aws_ecs_task_definition" "task_definition" {
       # },
       portMappings = [
         {
-          containerPort = var.container_port
+          hostPort      = var.hostPort
+          containerPort = var.containerPort
         }
       ],
       environment = [
@@ -39,12 +40,12 @@ resource "aws_ecs_task_definition" "task_definition" {
           value = "5432"
         },
         {
-          name  = "DATABASE_USER",
-          value = var.db_username
+          name  = "DATABASE_NAME",
+          value = var.db_name
         },
         {
-          name  = "DATABASE_NAME",
-          value = "postgres"
+          name  = "DATABASE_USER",
+          value = var.db_username
         },
         {
           name  = "DATABASE_PASSWORD",

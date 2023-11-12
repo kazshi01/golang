@@ -28,6 +28,10 @@ variable "create_nat_gateway" {
 #####################
 #        RDS        #
 #####################
+variable "db_name" {
+  type    = string
+  default = "marukome"
+}
 variable "db_username" {
   type    = string
   default = "marukome"
@@ -92,7 +96,12 @@ variable "container_name" {
   default = "go"
 }
 
-variable "container_port" {
+variable "hostPort" {
+  type    = number
+  default = 8080
+}
+
+variable "containerPort" {
   type    = number
   default = 8080
 }
@@ -112,5 +121,5 @@ variable "ecr_name" {
 
 variable "image_tag" {
   type    = string
-  default = "go-9"
+  default = "go-11"
 }

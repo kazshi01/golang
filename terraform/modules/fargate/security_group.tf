@@ -5,20 +5,12 @@ resource "aws_security_group" "service_sg" {
   vpc_id      = module.network.vpc_id
 
   ingress {
-    description = "TLS from VPC"
-    from_port   = 80
-    to_port     = 80
+    description = "Target Group from ALB"
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
     # cidr_blocks = ["0.0.0.0/0"]
     security_groups = [module.network.alb_sg]
-  }
-
-  ingress {
-    description     = "PostgreSQL from RDS"
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [module.network.postgres_sg_id]
   }
 
   ingress {
