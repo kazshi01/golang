@@ -1,7 +1,5 @@
 resource "aws_cloudfront_distribution" "server_distribution" {
-  # CloudFrontのオリジン設定をALBのDNS名に変更
-  # depends_on = [aws_acm_certificate_validation.cert_validation_virginia]
-
+  # CloudFrontのオリジンにALBのDNSを指定
   origin {
     domain_name = "${var.domain_prefix_alb}.${var.domain_name}"
     origin_id   = "myALBOrigin"
@@ -36,30 +34,19 @@ resource "aws_cloudfront_distribution" "server_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "myALBOrigin"
 
-    #静的コンテンツの場合
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-    }
-    #動的コンテンツの場合
+    # 静的コンテンツの場合
     # forwarded_values {
-    #   query_string = true # クエリ文字列をオリジンに転送し、キャッシュの決定に使用
+    #   query_string = false
 
     #   cookies {
-    #     forward = "all" # または "whitelist" と特定のクッキー名
-    #     ※"all"は、すべてのクッキーを転送することを意味するので、セキュリティ上の理由から推奨されない。
-    #     # クッキーが必要な場合は、セッションIDや認証トークンなど特定のクッキーをホワイトリストに登録する
-    #     whitelisted_names = ["sessionid", "auth-token"]
+    #     forward = "none"
     #   }
     # }
 
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 60
     default_ttl            = 60
     max_ttl                = 60
+    min_ttl                = 60
   }
 
   # 地理的制限の設定

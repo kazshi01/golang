@@ -14,6 +14,8 @@ resource "aws_ecs_task_definition" "task_definition" {
       cpu       = 256
       memory    = 512
       essential = true
+      # EFSを読み取り専用でマウントする
+      readonlyRootFilesystem = false
       mountPoints = [
         {
           sourceVolume  = "service-storage",
@@ -57,9 +59,9 @@ resource "aws_ecs_task_definition" "task_definition" {
           value = "${var.domain_prefix_alb}.${var.domain_name}"
         },
         {
-          #CloudFrontのDNS名を環境変数に設定(fontendのDNS名を設定)
+          #CloudFrontからのURLを環境変数に設定(fontendのDNS名を設定)
           name  = "FE_URL",
-          value = "http://localhost:3000"
+          value = "http://${var.domain_prefix_cloudfront}.${var.domain_name}"
         },
         {
           name  = "SECRET",
