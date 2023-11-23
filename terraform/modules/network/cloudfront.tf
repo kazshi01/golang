@@ -34,15 +34,23 @@ resource "aws_cloudfront_distribution" "server_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "myS3origin"
 
-    # 静的コンテンツの場合
+    # forward設定(all: 全てのヘッダーを転送) 
     forwarded_values {
       query_string = true
       cookies {
-        forward           = "whitelist"
-        whitelisted_names = ["_csrf", "token"] # CSRFとJWTトークンが含まれるCookie名
+        forward = "all"
       }
-      headers = ["Origin", "Access-Control-Request-Headers", "Access-Control-Request-Method", "X-CSRF-Token"]
     }
+
+    # より細かいフォーワード設定
+    # forwarded_values {
+    #   query_string = true
+    #   cookies {
+    #     forward           = "whitelist"
+    #     whitelisted_names = ["_csrf", "token"] # CSRFとJWTトークンが含まれるCookie名
+    #   }
+    #   headers = ["Origin", "Access-Control-Request-Headers", "Access-Control-Request-Method", "X-CSRF-Token"]
+    # }
 
     viewer_protocol_policy = "redirect-to-https"
     default_ttl            = 0

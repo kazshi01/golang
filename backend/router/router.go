@@ -27,7 +27,7 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 		CookieDomain:   os.Getenv("API_DOMAIN"),
 		CookieHTTPOnly: true,
 		CookieSecure:   true,                  // HTTPSでのみクッキーを送信
-		CookieSameSite: http.SameSiteNoneMode, // SameSite属性をNoneに設定
+		CookieSameSite: http.SameSiteNoneMode, // SameSite属性をNoneに設定、フロントエンドとの連携のため必須！！
 		// CookieSameSite: http.SameSiteDefaultMode,
 		CookieMaxAge: 60, // クッキーの有効期限を設定（秒）
 	}))

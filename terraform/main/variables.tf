@@ -121,5 +121,5 @@ variable "ecr_name" {
 
 variable "image_tag" {
   type    = string
-  default = "go-14"
+  default = "go-15"
 }
