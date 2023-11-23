@@ -59,9 +59,9 @@ resource "aws_ecs_task_definition" "task_definition" {
           value = "${var.domain_prefix_alb}.${var.domain_name}"
         },
         {
-          #CloudFrontからのURLを環境変数に設定(fontendのDNS名を設定)
+          #CloudFrontのdomainを環境変数に設定(fontendのDNS名を設定)
           name  = "FE_URL",
-          value = "http://${var.domain_prefix_cloudfront}.${var.domain_name}"
+          value = "https://${var.domain_prefix_cloudfront}.${var.domain_name}"
         },
         {
           name  = "SECRET",
