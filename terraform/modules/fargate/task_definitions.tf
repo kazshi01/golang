@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "task_definition" {
         },
         {
           name  = "DATABASE_PASSWORD",
-          value = var.db_password
+          value = local.db_password
         },
         {
           #ALBのDNS名を環境変数に設定(backendsのDNS名を設定)
@@ -65,17 +65,17 @@ resource "aws_ecs_task_definition" "task_definition" {
         },
         {
           name  = "SECRET",
-          value = "uu5pveql"
+          value = local.secret
         }
       ],
       # secrets = [
       #   {
       #     name      = "DATABASE_PASSWORD",
-      #     valueFrom = "arn:aws:secretsmanager:region:aws_account_id:secret:my_db_password_secret" # Secrets ManagerのシークレットのARN
+      #     valueFrom = data.aws_secretsmanager_secret.postgres_password.arn #Secrets ManagerのシークレットのARN
       #   },
       #   {
       #     name      = "SECRET",
-      #     valueFrom = "arn:aws:secretsmanager:region:aws_account_id:secret:server_secret" # Secrets ManagerのシークレットのARN
+      #     valueFrom = data.aws_secretsmanager_secret.go_app_secret.arn #Secrets ManagerのシークレットのARN
       #   }
       # ],
       logConfiguration = {

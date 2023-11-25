@@ -7,7 +7,7 @@ module "network" {
   create_nat_gateway         = var.create_nat_gateway
   db_name                    = var.db_name
   db_username                = var.db_username
-  db_password                = var.db_password
+  db_password                = local.db_password
   skip_final_snapshot        = var.skip_final_snapshot
   environment                = var.environment
   internal                   = var.internal

@@ -36,12 +36,6 @@ variable "db_username" {
   type    = string
   default = "marukome"
 }
-
-variable "db_password" {
-  type    = string
-  default = "marukome"
-}
-
 variable "skip_final_snapshot" {
   type    = bool
   default = true

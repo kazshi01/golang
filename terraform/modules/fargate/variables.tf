@@ -30,11 +30,6 @@ variable "db_name" {
 variable "db_username" {
   type = string
 }
-
-variable "db_password" {
-  type = string
-}
-
 variable "skip_final_snapshot" {
   type = bool
 }
