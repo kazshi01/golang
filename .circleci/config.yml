@@ -1,0 +1,100 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@4.0
+
+jobs:
+  exec-shell:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup:
+          profile_name: "WEB_IDENTITY"
+          role_arn: $AWS_ROLE_ARN
+          role_session_name: "exec-shell-session"
+      - run:
+          name: Execute AWS STS Command
+          command: |
+            aws sts get-caller-identity
+      - run:
+          name: Create .env file
+          command: |
+            cd ./frontend
+            ./get_ssm_parameter.sh
+      - run:
+          name: Debug List files in build directory
+          command: |
+            cat ./frontend/.env
+      - persist_to_workspace:
+          root: ./frontend
+          paths:
+            - .env
+  build:
+    docker:
+      - image: cimg/node:21.2.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./frontend
+      - run:
+          name: Change to frontend directory and Install dependencies
+          command: |
+            cd ./frontend
+            npm install
+      - run:
+          name: Run build
+          command: |
+            cd ./frontend
+            npm run build
+      - run:
+          name: Debug List files in build directory
+          command: |
+            ls -la ./frontend/
+      - persist_to_workspace:
+          root: ./frontend
+          paths:
+            - build
+
+  deploy:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ./frontend
+      - aws-cli/setup:
+          profile_name: "WEB_IDENTITY_PROFILE"
+          role_arn: $AWS_ROLE_ARN
+          role_session_name: "s3-sync-session"
+      - run:
+          name: Debug List files in build directory
+          command: |
+            ls -la ./frontend/
+      - run:
+          name: Upload build directory to S3
+          command: |
+            cd ./frontend
+            aws s3 sync build/ s3://react-app-marukome --delete
+workflows:
+  build-and-deploy-workflow:
+    jobs:
+      - exec-shell:
+          context: aws-s3-deploy
+          filters:
+            branches:
+              only:
+                - main
+
+      - build:
+          requires:
+            - exec-shell
+          context: aws-s3-deploy
+          filters:
+            branches:
+              only:
+                - main
+      - deploy:
+          requires:
+            - build
+          context: aws-s3-deploy
+          filters:
+            branches:
+              only:
+                - main
