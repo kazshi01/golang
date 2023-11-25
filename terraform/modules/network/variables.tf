@@ -71,3 +71,10 @@ variable "domain_prefix_alb" {
 variable "domain_prefix_cloudfront" {
   type = string
 }
+
+#####################
+#        S3         #
+#####################
+variable "frontend_bucket_name" {
+  type = string
+}

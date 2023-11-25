@@ -74,6 +74,13 @@ variable "domain_prefix_cloudfront" {
 }
 
 #####################
+#        S3         #
+#####################
+variable "frontend_bucket_name" {
+  type = string
+}
+
+#####################
 #      SERVICE      #
 #####################
 variable "container_name" {

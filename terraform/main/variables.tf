@@ -89,6 +89,14 @@ variable "domain_prefix_cloudfront" {
 }
 
 #####################
+#        S3         #
+#####################
+variable "frontend_bucket_name" {
+  type    = string
+  default = "react-app-marukome"
+}
+
+#####################
 #      SERVICE      #
 #####################
 variable "container_name" {

@@ -15,11 +15,11 @@ module "fargate" {
   domain_name                = var.domain_name
   domain_prefix_alb          = var.domain_prefix_alb
   domain_prefix_cloudfront   = var.domain_prefix_cloudfront
+  frontend_bucket_name       = var.frontend_bucket_name
   container_name             = var.container_name
   hostPort                   = var.hostPort
   containerPort              = var.containerPort
   assign_public_ip           = var.assign_public_ip
   ecr_name                   = var.ecr_name
   image_tag                  = var.image_tag
-
 }

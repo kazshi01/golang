@@ -1,7 +1,7 @@
 resource "aws_cloudfront_distribution" "server_distribution" {
   # CloudFrontのオリジンにS3を指定
   origin {
-    domain_name = "react-app-marukome.s3-website-ap-northeast-1.amazonaws.com"
+    domain_name = "${var.frontend_bucket_name}.s3-website-${var.region}.amazonaws.com"
     origin_id   = "myS3origin"
 
     custom_origin_config {
