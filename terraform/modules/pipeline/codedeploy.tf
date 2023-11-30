@@ -5,7 +5,7 @@ resource "aws_codedeploy_app" "ecs_app" {
 
 resource "aws_codedeploy_deployment_group" "ecs_deployment_group" {
   app_name              = aws_codedeploy_app.ecs_app.name
-  deployment_group_name = "ecs-deployment-group"
+  deployment_group_name = "${var.name}-ecs-deployment-group"
   service_role_arn      = aws_iam_role.codedeploy_role.arn
 
   deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
@@ -21,15 +21,17 @@ resource "aws_codedeploy_deployment_group" "ecs_deployment_group" {
   }
 
   blue_green_deployment_config {
+    deployment_ready_option {
+      action_on_timeout = "CONTINUE_DEPLOYMENT"
+      # 手動で切り替える場合は以下のように設定
+      # action_on_timeout    = "STOP_DEPLOYMENT"
+      # wait_time_in_minutes = 60
+    }
     terminate_blue_instances_on_deployment_success {
       action                           = "TERMINATE"
       termination_wait_time_in_minutes = 5 // ここでBlue環境のインスタンスを終了するまでの待機時間を設定
     }
 
-    deployment_ready_option {
-      action_on_timeout    = "STOP_DEPLOYMENT"
-      wait_time_in_minutes = 5 // ここでデプロイメントが「Ready」になるまでの待機時間を設定
-    }
   }
 
   ecs_service {

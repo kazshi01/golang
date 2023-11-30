@@ -8,8 +8,8 @@ data "template_file" "appspec" {
   }
 }
 
-resource "aws_s3_object" "appspec" {
-  bucket  = var.s3_bucket_name
-  key     = "codedeploy/appspec.yml"
-  content = data.template_file.appspec.rendered
+# appspec.ymlを任意の場所に配置する（Github Actionsで　CodeDeployが参照するファイルの場所を指定する）
+resource "local_file" "appspec" {
+  content  = data.template_file.appspec.rendered
+  filename = "${path.module}/appspec.yml"
 }

@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - backend/**
-      - .github/workflows/ecr_push.yml
+      # - .github/workflows/**
 
 permissions:
   id-token: write

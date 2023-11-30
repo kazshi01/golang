@@ -21,5 +21,4 @@ module "pipeline_on_fargate" {
   assign_public_ip           = var.assign_public_ip
   ecr_name                   = var.ecr_name
   image_tag                  = var.image_tag
-  s3_bucket_name             = var.s3_bucket_name
 }

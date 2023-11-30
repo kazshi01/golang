@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Check IMAGE PUSH TO ECR Workflow
         run: echo "Codedeploy Trigger is running after IMAGE PUSH TO ECR completed successfully"
 
@@ -35,30 +38,29 @@ jobs:
         with:
           mask-password: 'true'
 
-      - name: Fetch TaskDefinition from ECS and generate task-def.json file
+      # amazon-ecs-render-task-definition を使うために TaskDefinition を ECS から取ってくる
+      - name: Fetch TaskDefinition from ECS and generate task-def-api.json (api)
         run: |
           aws ecs describe-task-definition --task-definition terraform-family | \
-            jq '.taskDefinition | del (.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities)' > task-def.json
+            jq '.taskDefinition | del (.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' > task-def-api.json
 
+      # TaskDefinition の image を push した最新のものに書き換える
       - name: Render TaskDefinition
         id: render-container-api
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-def.json
+          task-definition: task-def-api.json
           container-name: go
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:go-${{ github.run_number }}
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:go-30
 
-      - name: Register New Task Definition
-        run: |
-          aws ecs register-task-definition --cli-input-json file://${{ steps.render-container-api.outputs.task-definition }}
-
-      - name: Deploy with CodeDeploy
-        run: |
-          TASK_DEFINITION=$(jq -r '.taskDefinition.taskDefinitionArn' <<< "${{ steps.render-container-api.outputs.task-definition }}")
-          aws deploy create-deployment \
-            --application-name terraform-ecs-app \
-            --deployment-group-name ecs-deployment-group \
-            --deployment-config-name CodeDeployDefault.ECSAllAtOnce \
-            --description "Deploy from GitHub Actions" \
-            --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=yml,key=codedeploy/appspec.yml \
-            --revision "{\"revisionType\":\"AppSpecContent\",\"appSpecContent\":{\"content\":\"{\\\"version\\\":\\\"0.0\\\",\\\"Resources\\\":[{\\\"TargetService\\\":{\\\"Type\\\":\\\"AWS::ECS::Service\\\",\\\"Properties\\\":{\\\"TaskDefinition\\\":\\\"$TASK_DEFINITION\\\"}}}]}}\"}"
+      # デプロイする
+      - name: Deploy app with CodeDeploy Blue/Green deployment
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-container-api.outputs.task-definition }}
+          cluster: terraform-ecs-cluster
+          service: terraform-ecs-service
+          wait-for-service-stability: true
+          codedeploy-appspec: terraform/modules/pipeline/appspec.yml
+          codedeploy-application: terraform-ecs-app
+          codedeploy-deployment-group: terraform-ecs-deployment-group

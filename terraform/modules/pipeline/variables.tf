@@ -71,10 +71,6 @@ variable "domain_prefix_cloudfront" {
 #####################
 #        S3         #
 #####################
-variable "s3_bucket_name" {
-  type = string
-}
-
 variable "frontend_bucket_name" {
   type = string
 }
