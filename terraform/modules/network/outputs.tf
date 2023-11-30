@@ -32,6 +32,15 @@ output "efs_sg_id" {
 output "alb_sg" {
   value = aws_security_group.alb_sg.id
 }
-output "target_group_arn" {
-  value = aws_lb_target_group.target_ip.arn
+output "https_listener_arn" {
+  value = aws_lb_listener.https_listener.arn
+}
+output "bule_target_group_name" {
+  value = aws_lb_target_group.blue_target_ip.name
+}
+output "bule_target_group_arn" {
+  value = aws_lb_target_group.blue_target_ip.arn
+}
+output "green_target_group_name" {
+  value = aws_lb_target_group.green_target_ip.name
 }

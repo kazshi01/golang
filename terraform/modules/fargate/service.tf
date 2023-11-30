@@ -27,11 +27,14 @@ resource "aws_ecs_service" "ecs_service" {
   # }
 
   load_balancer {
-    target_group_arn = module.network.target_group_arn
+    target_group_arn = module.network.bule_target_group_arn
     container_name   = var.container_name
     container_port   = var.containerPort
   }
 
   health_check_grace_period_seconds = 30
 
+  deployment_controller {
+    type = "CODE_DEPLOY"
+  }
 }

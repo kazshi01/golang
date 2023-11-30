@@ -1,19 +1,16 @@
 variable "name" {
-  type    = string
-  default = "terraform"
+  type = string
 }
 
 variable "region" {
-  type    = string
-  default = "ap-northeast-1"
+  type = string
 }
 
 #####################
 #       VPC         #
 #####################
 variable "vpc_cidr" {
-  type    = string
-  default = "10.0.0.0/16"
+  type = string
 }
 
 #####################
@@ -21,24 +18,20 @@ variable "vpc_cidr" {
 #####################
 
 variable "create_nat_gateway" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 #####################
 #        RDS        #
 #####################
 variable "db_name" {
-  type    = string
-  default = "marukome"
+  type = string
 }
 variable "db_username" {
-  type    = string
-  default = "marukome"
+  type = string
 }
 variable "skip_final_snapshot" {
-  type    = bool
-  default = true
+  type = bool
 }
 
 #####################
@@ -46,19 +39,15 @@ variable "skip_final_snapshot" {
 #####################
 
 variable "environment" {
-  type    = string
-  default = "dev"
+  type = string
 }
 
 variable "internal" {
-  type    = bool
-  default = false
+  type = bool
 }
 
 variable "enable_deletion_protection" {
-  type    = bool
-  default = false
-
+  type = bool
 }
 
 #####################
@@ -66,67 +55,56 @@ variable "enable_deletion_protection" {
 #####################
 
 variable "domain_name" {
-  type    = string
-  default = "marukome0909.com"
+  type = string
 }
 variable "domain_prefix_alb" {
-  type    = string
-  default = "alb"
+  type = string
 }
 
 #####################
 #     CROUDFRONT    #
 #####################
 variable "domain_prefix_cloudfront" {
-  type    = string
-  default = "cloudfront"
+  type = string
 }
 
 #####################
 #        S3         #
 #####################
 variable "s3_bucket_name" {
-  type    = string
-  default = "self-dev-marukome"
+  type = string
 }
 
 variable "frontend_bucket_name" {
-  type    = string
-  default = "react-app-marukome"
+  type = string
 }
 
 #####################
 #      SERVICE      #
 #####################
 variable "container_name" {
-  type    = string
-  default = "go"
+  type = string
 }
 
 variable "hostPort" {
-  type    = number
-  default = 8080
+  type = number
 }
 
 variable "containerPort" {
-  type    = number
-  default = 8080
+  type = number
 }
 
 variable "assign_public_ip" {
-  type    = bool
-  default = true
+  type = bool
 }
 
 #####################
 #        ECR        #
 #####################
 variable "ecr_name" {
-  type    = string
-  default = "dev/practice"
+  type = string
 }
 
 variable "image_tag" {
-  type    = string
-  default = "go-15"
+  type = string
 }

@@ -28,7 +28,7 @@ resource "aws_lb_listener" "https_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_ip.arn
+    target_group_arn = aws_lb_target_group.blue_target_ip.arn
   }
 }
 
@@ -49,8 +49,28 @@ resource "aws_lb_listener" "http_listener" {
   }
 }
 
-resource "aws_lb_target_group" "target_ip" {
-  name        = "${var.name}-target-ip"
+resource "aws_lb_target_group" "blue_target_ip" {
+  name        = "${var.name}-bule-target-ip"
+  port        = 8080
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = module.storage.vpc_id
+
+  health_check {
+    enabled             = true
+    interval            = 30
+    path                = "/health"
+    port                = "traffic-port"
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+    timeout             = 5
+    protocol            = "HTTP"
+    matcher             = "200"
+  }
+}
+
+resource "aws_lb_target_group" "green_target_ip" {
+  name        = "${var.name}-green-target-ip"
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
