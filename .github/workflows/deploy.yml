@@ -32,6 +32,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN_FOR_GOLANG }}
 
+      # 以降で、registryを変数で使うためにECRにログインする
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -51,7 +52,7 @@ jobs:
         with:
           task-definition: task-def-api.json
           container-name: go
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:go-30
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:go-${{ github.sha }}
 
       # デプロイする
       - name: Deploy app with CodeDeploy Blue/Green deployment

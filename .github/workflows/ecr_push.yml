@@ -1,6 +1,7 @@
 name: IMAGE PUSH TO ECR
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -44,5 +45,5 @@ jobs:
         with:
           registry: ${{ env.ECR_REGISTRY }}
           image: ${{ env.ECR_REPOSITORY }}
-          tags: go-${{ github.run_number }}
+          tags: go-${{ github.sha }}
           dockerfile: ./backend/Dockerfile

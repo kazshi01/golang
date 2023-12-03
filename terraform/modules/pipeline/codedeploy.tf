@@ -31,7 +31,6 @@ resource "aws_codedeploy_deployment_group" "ecs_deployment_group" {
       action                           = "TERMINATE"
       termination_wait_time_in_minutes = 5 // ここでBlue環境のインスタンスを終了するまでの待機時間を設定
     }
-
   }
 
   ecs_service {
