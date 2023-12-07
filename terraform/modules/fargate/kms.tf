@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "cloudwatch_logs_key_policy" {
 
   # ECS Execコマンド用の権限を付与する
   statement {
-    actions   = ["kms:Decrypt"]
+    actions   = ["kms:Decrypt", "kms:Encrypt", "kms:GenerateDataKey"]
     resources = ["*"]
     principals {
       type        = "AWS"

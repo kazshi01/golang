@@ -56,6 +56,11 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_role_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_iam_role_policy_attachment" "ecs_execution_role_cloudwatch_attachment" {
+  role       = aws_iam_role.ecs_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
 # resource "aws_iam_policy" "secrets_policy_for_task_execution_role" {
 #   name        = "secrets_policy_for_task_execution_role"
 #   description = "secrets policy for ECS task execution role"
@@ -131,7 +136,11 @@ resource "aws_iam_policy" "ecs_execute_command_policy" {
         Resource = "*"
       },
       {
-        Action   = "kms:Decrypt",
+        Action = [
+          "kms:Decrypt",
+          "kms:Encrypt",
+          "kms:GenerateDataKey"
+        ],
         Effect   = "Allow",
         Resource = "${aws_kms_key.cloudwatch_logs_key.arn}"
       }
