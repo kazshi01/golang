@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-northeast-1:996109426400:task-definition/terraform-family:114"
+        LoadBalancerInfo:
+          ContainerName: "go"
+          ContainerPort: 8080

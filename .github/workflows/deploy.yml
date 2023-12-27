@@ -5,7 +5,7 @@ on:
     workflows: ['IMAGE PUSH TO ECR']
     types:
       - completed
-    branches: [main]
+    branches: [develop]
 
 permissions:
   id-token: write

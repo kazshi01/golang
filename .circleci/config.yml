@@ -72,29 +72,29 @@ jobs:
           command: |
             cd ./frontend
             aws s3 sync build/ s3://react-app-marukome --delete
-workflows:
-  build-and-deploy-workflow:
-    jobs:
-      - exec-shell:
-          context: aws-s3-deploy
-          filters:
-            branches:
-              only:
-                - main
+# workflows:
+#   build-and-deploy-workflow:
+#     jobs:
+#       - exec-shell:
+#           context: aws-s3-deploy
+#           filters:
+#             branches:
+#               only:
+#                 - main
 
-      - build:
-          requires:
-            - exec-shell
-          context: aws-s3-deploy
-          filters:
-            branches:
-              only:
-                - main
-      - deploy:
-          requires:
-            - build
-          context: aws-s3-deploy
-          filters:
-            branches:
-              only:
-                - main
+#       - build:
+#           requires:
+#             - exec-shell
+#           context: aws-s3-deploy
+#           filters:
+#             branches:
+#               only:
+#                 - main
+#       - deploy:
+#           requires:
+#             - build
+#           context: aws-s3-deploy
+#           filters:
+#             branches:
+#               only:
+#                 - main

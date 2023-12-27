@@ -130,15 +130,15 @@ resource "aws_iam_policy" "ecs_execute_command_policy" {
         Effect   = "Allow",
         Resource = "*"
       },
-      {
-        Action = [
-          "kms:Decrypt",
-          "kms:Encrypt",
-          "kms:GenerateDataKey"
-        ],
-        Effect   = "Allow",
-        Resource = "${aws_kms_key.cloudwatch_logs_key.arn}"
-      }
+      # {
+      #   Action = [
+      #     "kms:Decrypt",
+      #     "kms:Encrypt",
+      #     "kms:GenerateDataKey"
+      #   ],
+      #   Effect   = "Allow",
+      #   Resource = "${aws_kms_key.cloudwatch_logs_key.arn}"
+      # }
     ]
   })
 }

@@ -12,7 +12,11 @@ import (
 
 func NewRouter(uc controller.IUserController, tc controller.ITaskController) *echo.Echo {
 	e := echo.New()
-	// CORSの設定
+
+	// Logger settings
+	e.Use(middleware.Logger())
+
+	// CORS settings
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{os.Getenv("FE_URL")},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept,
@@ -21,7 +25,7 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 		AllowCredentials: true,
 	}))
 
-	// CORSの設定
+	// CSRF settings
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		CookiePath:     "/",
 		CookieDomain:   os.Getenv("API_DOMAIN"),
