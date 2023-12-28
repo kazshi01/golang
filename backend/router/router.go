@@ -2,6 +2,7 @@ package router
 
 import (
 	"go_practice/controller"
+	"log"
 	"net/http"
 	"os"
 
@@ -14,7 +15,13 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 	e := echo.New()
 
 	// Logger settings
-	e.Use(middleware.Logger())
+	logFile, err := os.OpenFile("/opt/data/app.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Output: logFile,
+	}))
 
 	// CORS settings
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
