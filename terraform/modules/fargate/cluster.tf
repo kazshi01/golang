@@ -10,12 +10,14 @@ resource "aws_ecs_cluster" "ecs_cluster" {
   configuration {
     execute_command_configuration {
       # kms_key_id = aws_kms_key.cloudwatch_logs_key.arn
-      logging = "OVERRIDE"
+      logging = "DEFAULT"
 
-      log_configuration {
-        cloud_watch_encryption_enabled = false
-        cloud_watch_log_group_name     = aws_cloudwatch_log_group.container_log.name
-      }
+      # log_configuration {
+      #   s3_bucket_name = var.s3_bucket_name
+      #   s3_key_prefix  = "ecs"
+      #   cloud_watch_encryption_enabled = false
+      #   cloud_watch_log_group_name     = aws_cloudwatch_log_group.container_log.name
+      # }
     }
   }
 }

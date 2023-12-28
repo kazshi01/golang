@@ -14,8 +14,6 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "self-dev-marukome"
-    key    = "golang/terraform"
-    region = "ap-northeast-1"
+    config = "backend.hcl"
   }
 }

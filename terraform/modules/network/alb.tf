@@ -58,7 +58,7 @@ resource "aws_lb_target_group" "blue_target_ip" {
 
   health_check {
     enabled             = true
-    interval            = 30
+    interval            = 180
     path                = "/health"
     port                = "traffic-port"
     healthy_threshold   = 5
@@ -78,7 +78,7 @@ resource "aws_lb_target_group" "green_target_ip" {
 
   health_check {
     enabled             = true
-    interval            = 30
+    interval            = 180
     path                = "/health"
     port                = "traffic-port"
     healthy_threshold   = 5

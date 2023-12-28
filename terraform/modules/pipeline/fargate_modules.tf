@@ -14,6 +14,7 @@ module "fargate" {
   domain_name                = var.domain_name
   domain_prefix_alb          = var.domain_prefix_alb
   domain_prefix_cloudfront   = var.domain_prefix_cloudfront
+  s3_bucket_name             = var.s3_bucket_name
   frontend_bucket_name       = var.frontend_bucket_name
   container_name             = var.container_name
   hostPort                   = var.hostPort
