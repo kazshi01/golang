@@ -148,6 +148,35 @@ resource "aws_iam_role_policy_attachment" "ecs_execute_command_policy_attachment
   policy_arn = aws_iam_policy.ecs_execute_command_policy.arn
 }
 
+# ロールにS3への権限を付与する (fluentbit用)
+resource "aws_iam_policy" "fluentbit_s3_access" {
+  name        = "fluentbit_s3_access"
+  description = "Allow Fluent Bit to write logs to S3"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:PutObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListBucket"
+        ],
+        Resource = [
+          "arn:aws:s3:::self-dev-marukome/*",
+          "arn:aws:s3:::self-dev-marukome"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "fluentbit_s3_access_attachment" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = aws_iam_policy.fluentbit_s3_access.arn
+}
+
 # resource "aws_iam_policy" "secrets_policy_for_task_role" {
 #   name        = "secrets_policy_for_task_role"
 #   description = "secrets policy for ECS task role"

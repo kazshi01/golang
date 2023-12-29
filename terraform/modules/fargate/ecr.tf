@@ -3,7 +3,8 @@ data "aws_ecr_repository" "existing" {
 }
 
 locals {
-  ecr_image = "${data.aws_ecr_repository.existing.repository_url}:${var.image_tag}"
+  ecr_image       = "${data.aws_ecr_repository.existing.repository_url}:${var.image_tag}"
+  fluentbit_image = "${data.aws_ecr_repository.existing.repository_url}:fluentbit-latest"
 }
 
 # ----------------------------------------------------------

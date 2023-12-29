@@ -79,6 +79,26 @@ resource "aws_ecs_task_definition" "task_definition" {
       #   }
       # ],
       logConfiguration = {
+        logDriver = "awsfirelens"
+      }
+    },
+    {
+      name      = "fluent-bit"
+      image     = local.fluentbit_image
+      cpu       = 50
+      memory    = 100
+      essential = false
+
+      firelensConfiguration = {
+        type = "fluentbit"
+        options = {
+          enable-ecs-log-metadata = "true"
+          config-file-type        = "file"
+          config-file-value       = "/fluent-bit/etc/extra.conf"
+        }
+      }
+
+      logConfiguration = {
         logDriver = "awslogs"
         options = {
           "awslogs-group"         = aws_cloudwatch_log_group.container_log.name
@@ -86,19 +106,7 @@ resource "aws_ecs_task_definition" "task_definition" {
           "awslogs-stream-prefix" = "ecs"
         }
       }
-    },
-    # {
-    #   name      = "second"
-    #   image     = "service-second"
-    #   cpu       = 128 # Fargate対応の値に変更
-    #   memory    = 256 # Fargate対応の値に変更
-    #   essential = true
-    #   portMappings = [
-    #     {
-    #       containerPort = 443
-    #     }
-    #   ]
-    # }
+    }
   ])
 
   # EFSをマウントするための設定
