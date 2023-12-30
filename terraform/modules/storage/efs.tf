@@ -13,6 +13,10 @@ resource "aws_efs_file_system" "efs" {
 resource "aws_efs_access_point" "access_point" {
   file_system_id = aws_efs_file_system.efs.id
 
+  root_directory {
+    path = "/"
+  }
+
   # posix_user {
   #   gid = 1000
   #   uid = 1000

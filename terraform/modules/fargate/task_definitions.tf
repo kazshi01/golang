@@ -106,6 +106,13 @@ resource "aws_ecs_task_definition" "task_definition" {
           "awslogs-stream-prefix" = "ecs"
         }
       }
+
+      mountPoints = [
+        {
+          sourceVolume  = "service-storage",
+          containerPath = "/opt/data" ## マウント先のパス
+        }
+      ]
     }
   ])
 
