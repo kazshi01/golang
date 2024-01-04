@@ -22,7 +22,7 @@ COPY --from=builder /app/myapp .
 COPY --from=builder /app/migrate_executable ./migrate_executable
 COPY ./backend/start.sh ./start.sh
 
-# スクリプトとバイナリの実行可能にする
+# スクリプトとバイナリの実行を可能にする
 RUN chmod +x ./start.sh ./migrate_executable
 
 # ポート番号の指定

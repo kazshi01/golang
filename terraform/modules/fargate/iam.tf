@@ -169,7 +169,7 @@ resource "aws_iam_policy" "fluentbit_s3_access" {
           "s3:ListBucket"
         ],
         Resource = [
-          "arn:aws:s3:::self-dev-marukome/*"
+          "arn:aws:s3:::${var.s3_bucket_name}/*"
         ]
       }
     ]
