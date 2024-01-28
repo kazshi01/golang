@@ -1,42 +1,12 @@
+#####################
+#       COMMON      #
+#####################
 variable "name" {
   type = string
 }
 
 variable "region" {
   type = string
-}
-
-#####################
-#       VPC         #
-#####################
-variable "vpc_cidr" {
-  type = string
-}
-
-#####################
-#    ROUTE_TABLE    #
-#####################
-
-variable "create_nat_gateway" {
-  type = bool
-}
-
-#####################
-#        RDS        #
-#####################
-variable "db_name" {
-  type = string
-}
-variable "db_username" {
-  type = string
-}
-
-variable "db_password" {
-  type = string
-}
-
-variable "skip_final_snapshot" {
-  type = bool
 }
 
 #####################
@@ -77,4 +47,22 @@ variable "domain_prefix_cloudfront" {
 #####################
 variable "frontend_bucket_name" {
   type = string
+}
+
+############################################
+#          modify階層で指定する変数           #
+############################################
+
+#####################
+#       VPC         #
+#####################
+variable "vpc_id" {
+  type = string
+}
+
+#####################
+#      SUBNET       #
+#####################
+variable "public_subnet_ids" {
+  type = list(string)
 }

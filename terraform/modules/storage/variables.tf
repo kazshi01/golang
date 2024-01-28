@@ -1,24 +1,10 @@
+#####################
+#      COMMON       #
+#####################
 variable "name" {
   type = string
 }
-variable "region" {
-  type = string
-}
 
-#####################
-#       VPC         #
-#####################
-variable "vpc_cidr" {
-  type = string
-}
-
-#####################
-#    ROUTE_TABLE    #
-#####################
-
-variable "create_nat_gateway" {
-  type = bool
-}
 #####################
 #        RDS        #
 #####################
@@ -29,10 +15,27 @@ variable "db_username" {
   type = string
 }
 
-variable "db_password" {
+variable "skip_final_snapshot" {
+  type = bool
+}
+
+############################################
+#          modify階層で指定する変数           #
+############################################
+
+#####################
+#       VPC         #
+#####################
+variable "vpc_id" {
   type = string
 }
 
-variable "skip_final_snapshot" {
-  type = bool
+#####################
+#       SUBNET      #
+#####################
+variable "public_subnet_ids" {
+  type = list(string)
+}
+variable "database_subnet_ids" {
+  type = list(string)
 }

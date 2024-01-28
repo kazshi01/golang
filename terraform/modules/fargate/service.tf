@@ -13,7 +13,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   #どのサブネットに配置するか
   network_configuration {
-    subnets         = module.network.public_subnet_ids
+    subnets         = var.public_subnet_ids
     security_groups = [aws_security_group.service_sg.id]
     # Private Subnetに配置する場合は、以下の設定をfalseにする
     assign_public_ip = var.assign_public_ip
@@ -27,7 +27,7 @@ resource "aws_ecs_service" "ecs_service" {
   # }
 
   load_balancer {
-    target_group_arn = module.network.bule_target_group_arn
+    target_group_arn = var.bule_target_group_arn
     container_name   = var.container_name
     container_port   = var.containerPort
   }

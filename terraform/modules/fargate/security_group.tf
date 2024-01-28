@@ -2,7 +2,7 @@
 resource "aws_security_group" "service_sg" {
   name        = "${var.name}-service-sg"
   description = "Security group for the Service"
-  vpc_id      = module.network.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "Target Group from ALB"
@@ -10,7 +10,7 @@ resource "aws_security_group" "service_sg" {
     to_port     = 8080
     protocol    = "tcp"
     # cidr_blocks = ["0.0.0.0/0"]
-    security_groups = [module.network.alb_sg]
+    security_groups = [var.alb_sg]
   }
 
   ingress {
@@ -18,7 +18,7 @@ resource "aws_security_group" "service_sg" {
     from_port       = 2049
     to_port         = 2049
     protocol        = "tcp"
-    security_groups = [module.network.efs_sg_id]
+    security_groups = [var.efs_sg_id]
   }
 
   egress {
@@ -39,7 +39,7 @@ resource "aws_security_group_rule" "default_to_postgres_sg_ingress" {
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"
-  security_group_id        = module.network.postgres_sg_id
+  security_group_id        = var.postgres_sg_id
   source_security_group_id = aws_security_group.service_sg.id
 }
 
@@ -49,6 +49,6 @@ resource "aws_security_group_rule" "efs_sg_ingress" {
   from_port                = 2049
   to_port                  = 2049
   protocol                 = "tcp"
-  security_group_id        = module.network.efs_sg_id
+  security_group_id        = var.efs_sg_id
   source_security_group_id = aws_security_group.service_sg.id
 }

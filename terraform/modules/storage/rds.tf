@@ -6,7 +6,7 @@ resource "aws_db_instance" "postgres" {
   instance_class    = "db.t3.micro"
   db_name           = var.db_name
   username          = var.db_username
-  password          = var.db_password
+  password          = local.db_password
   # password = jsondecode(data.aws_secretsmanager_secret_version.db_password.secret_string)["password"]
   parameter_group_name   = "default.postgres15"
   skip_final_snapshot    = var.skip_final_snapshot
@@ -16,7 +16,7 @@ resource "aws_db_instance" "postgres" {
 
 resource "aws_db_subnet_group" "postgres" {
   name       = "postgres-subnet-group"
-  subnet_ids = module.vpc.database_subnet_ids
+  subnet_ids = var.database_subnet_ids
 
   tags = {
     Name = "${var.name}-db-subnet-group"

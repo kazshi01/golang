@@ -1,24 +1,12 @@
+#####################
+#       COMMON      #
+#####################
 variable "name" {
   type = string
 }
 
 variable "region" {
   type = string
-}
-
-#####################
-#       VPC         #
-#####################
-variable "vpc_cidr" {
-  type = string
-}
-
-#####################
-#    ROUTE_TABLE    #
-#####################
-
-variable "create_nat_gateway" {
-  type = bool
 }
 
 #####################
@@ -29,25 +17,6 @@ variable "db_name" {
 }
 variable "db_username" {
   type = string
-}
-variable "skip_final_snapshot" {
-  type = bool
-}
-
-#####################
-#        ALB        #
-#####################
-
-variable "environment" {
-  type = string
-}
-
-variable "internal" {
-  type = bool
-}
-
-variable "enable_deletion_protection" {
-  type = bool
 }
 
 #####################
@@ -106,5 +75,64 @@ variable "ecr_name" {
 }
 
 variable "image_tag" {
+  type = string
+}
+
+############################################
+#          modify階層で指定する変数           #
+############################################
+
+#####################
+#       VPC         #
+#####################
+variable "vpc_id" {
+  type = string
+}
+
+#####################
+#   SECURITY GROUP  #
+#####################
+
+variable "alb_sg" {
+  type = string
+}
+
+variable "efs_sg_id" {
+  type = string
+}
+
+variable "postgres_sg_id" {
+  type = string
+}
+
+#####################
+#      SUBNET       #
+#####################
+variable "public_subnet_ids" {
+  type = list(string)
+}
+
+#####################
+#   TARGET GROUP    #
+#####################
+variable "bule_target_group_arn" {
+  type = string
+}
+
+#####################
+#     POSTGRES      #
+#####################
+variable "postgres_endpoint" {
+  type = string
+}
+
+#####################
+#        EFS        #
+#####################
+variable "efs_id" {
+  type = string
+}
+
+variable "access_point_id" {
   type = string
 }

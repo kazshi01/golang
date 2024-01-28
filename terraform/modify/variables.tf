@@ -30,9 +30,11 @@ variable "create_nat_gateway" {
 variable "db_name" {
   type = string
 }
+
 variable "db_username" {
   type = string
 }
+
 variable "skip_final_snapshot" {
   type = bool
 }

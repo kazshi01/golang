@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "task_definition" {
       environment = [
         {
           name  = "DATABASE_HOST",
-          value = module.network.postgres_endpoint
+          value = var.postgres_endpoint
         },
         {
           name  = "DATABASE_PORT",
@@ -121,11 +121,11 @@ resource "aws_ecs_task_definition" "task_definition" {
     name = "service-storage"
 
     efs_volume_configuration {
-      file_system_id          = module.network.efs_id
+      file_system_id          = var.efs_id
       transit_encryption      = "ENABLED"
       transit_encryption_port = 2049
       authorization_config {
-        access_point_id = module.network.access_point_id
+        access_point_id = var.access_point_id
         iam             = "ENABLED"
       }
     }

@@ -2,7 +2,7 @@ data "template_file" "appspec" {
   template = file("../modules/pipeline/appspec.yml.tmpl")
 
   vars = {
-    task_definition_arn = module.fargate.task_definition_arn
+    task_definition_arn = var.task_definition_arn
     container_name      = var.container_name
     container_port      = var.containerPort
   }

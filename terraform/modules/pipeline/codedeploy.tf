@@ -34,20 +34,20 @@ resource "aws_codedeploy_deployment_group" "ecs_deployment_group" {
   }
 
   ecs_service {
-    cluster_name = module.fargate.ecs_cluster_name
-    service_name = module.fargate.ecs_service_name
+    cluster_name = var.ecs_cluster_name
+    service_name = var.ecs_service_name
   }
 
   load_balancer_info {
     target_group_pair_info {
       target_group {
-        name = module.fargate.bule_target_group_name // ここでBlue環境のALBのターゲットグループを指定
+        name = var.bule_target_group_name // ここでBlue環境のALBのターゲットグループを指定
       }
       target_group {
-        name = module.fargate.green_target_group_name // ここでGreen環境のALBのターゲットグループを指定
+        name = var.green_target_group_name // ここでGreen環境のALBのターゲットグループを指定
       }
       prod_traffic_route {
-        listener_arns = [module.fargate.https_listener_arn] // ここでALBのリスナー(443ポート)を指定
+        listener_arns = [var.https_listener_arn] // ここでALBのリスナー(443ポート)を指定
       }
     }
   }

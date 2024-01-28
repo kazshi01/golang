@@ -3,7 +3,7 @@ resource "aws_lb" "alb" {
   internal           = var.internal
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = module.storage.public_subnet_ids
+  subnets            = var.public_subnet_ids
 
   enable_deletion_protection = var.enable_deletion_protection
 
@@ -54,7 +54,7 @@ resource "aws_lb_target_group" "blue_target_ip" {
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = module.storage.vpc_id
+  vpc_id      = var.vpc_id
 
   health_check {
     enabled             = true
@@ -74,7 +74,7 @@ resource "aws_lb_target_group" "green_target_ip" {
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = module.storage.vpc_id
+  vpc_id      = var.vpc_id
 
   health_check {
     enabled             = true

@@ -24,8 +24,8 @@ resource "aws_efs_access_point" "access_point" {
 }
 
 resource "aws_efs_mount_target" "mount_target" {
-  count           = length(module.vpc.public_subnet_ids)
+  count           = length(var.public_subnet_ids)
   file_system_id  = aws_efs_file_system.efs.id
-  subnet_id       = module.vpc.public_subnet_ids[count.index]
+  subnet_id       = var.public_subnet_ids[count.index]
   security_groups = [aws_security_group.efs_sg.id]
 }
