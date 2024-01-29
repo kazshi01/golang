@@ -1,5 +1,5 @@
 module "React_Golang_Application" {
-  source = "../modify"
+  source = "../foundations"
 
   name                       = var.name
   region                     = var.region

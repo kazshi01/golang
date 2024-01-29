@@ -6,42 +6,38 @@ locals {
   }
 }
 
-locals {
-  public_subnets   = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 8, k)]
-  private_subnets  = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 8, k + 4)]
-  database_subnets = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 8, k + 8)]
-}
-
 resource "aws_subnet" "public_subnets" {
+  for_each          = { for k, v in local.azs : k => v }
   vpc_id            = aws_vpc.vpc.id
-  count             = length(local.public_subnets)
-  cidr_block        = local.public_subnets[count.index]
-  availability_zone = local.azs[tostring(count.index + 1)]
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, tonumber(each.key))
+  availability_zone = each.value
+
   # EC2インスタンスにパブリックIPを自動割り当て
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.name}-public-subnet"
+    Name = "${var.name}-public-subnet-${each.key}"
   }
 }
 
 resource "aws_subnet" "private_subnets" {
+  for_each          = { for k, v in local.azs : k => v }
   vpc_id            = aws_vpc.vpc.id
-  count             = length(local.private_subnets)
-  cidr_block        = local.private_subnets[count.index]
-  availability_zone = local.azs[tostring(count.index + 1)]
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, tonumber(each.key) + 4)
+  availability_zone = each.value
+
   tags = {
-    Name = "${var.name}-private-subnet"
+    Name = "${var.name}-private-subnet-${each.key}"
   }
 }
 
 resource "aws_subnet" "database_subnets" {
+  for_each          = { for k, v in local.azs : k => v }
   vpc_id            = aws_vpc.vpc.id
-  count             = length(local.database_subnets)
-  cidr_block        = local.database_subnets[count.index]
-  availability_zone = local.azs[tostring(count.index + 1)]
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, tonumber(each.key) + 8)
+  availability_zone = each.value
+
   tags = {
-    Name = "${var.name}-database-subnet"
+    Name = "${var.name}-database-subnet-${each.key}"
   }
 }
-
