@@ -5,6 +5,7 @@ resource "aws_internet_gateway" "igw" {
     Name = "${var.name}-igw"
   }
 }
+
 # Public Subunetに関連付けるルートテーブル
 resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.vpc.id
@@ -29,15 +30,16 @@ resource "aws_route_table_association" "public_route_table_assoc" {
 # Private Subnetに関連付けるルートテーブル
 # NAT Gateway
 resource "aws_eip" "nat_eip" {
-  count = var.create_nat_gateway ? 1 : 0 # var.create_nat_gatewayがtrueのとき1、falseのとき0
+  count = var.public ? 0 : 1
   tags = {
     Name = "${var.name}-nat-eip"
   }
 }
+
 resource "aws_nat_gateway" "nat_gw" {
-  count         = var.create_nat_gateway ? 1 : 0
+  count         = var.public ? 0 : 1
   allocation_id = aws_eip.nat_eip[0].id
-  subnet_id     = aws_subnet.public_subnets[0].id
+  subnet_id     = aws_subnet.public_subnets["1"].id
 
   tags = {
     Name = "${var.name}-nat-gateway"
@@ -48,7 +50,7 @@ resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.vpc.id
 
   dynamic "route" {
-    for_each = var.create_nat_gateway ? [1] : []
+    for_each = var.public ? [] : [1]
     content {
       cidr_block     = "0.0.0.0/0"
       nat_gateway_id = aws_nat_gateway.nat_gw[0].id

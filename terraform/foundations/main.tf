@@ -1,9 +1,9 @@
 module "vpc" {
   source = "../modules/vpc"
 
-  name               = var.name
-  vpc_cidr           = var.vpc_cidr
-  create_nat_gateway = var.create_nat_gateway
+  name     = var.name
+  public   = var.public
+  vpc_cidr = var.vpc_cidr
 
 }
 
@@ -11,12 +11,14 @@ module "storage" {
   source = "../modules/storage"
 
   name                = var.name
+  public              = var.public
   db_name             = var.db_name
   db_username         = var.db_username
   skip_final_snapshot = var.skip_final_snapshot
 
   vpc_id              = module.vpc.vpc_id
   public_subnet_ids   = module.vpc.public_subnet_ids
+  private_subnet_ids  = module.vpc.private_subnet_ids
   database_subnet_ids = module.vpc.database_subnet_ids
 
 }
@@ -44,6 +46,7 @@ module "fargate" {
 
   name                     = var.name
   region                   = var.region
+  public                   = var.public
   db_name                  = var.db_name
   db_username              = var.db_username
   domain_name              = var.domain_name
@@ -54,12 +57,12 @@ module "fargate" {
   container_name           = var.container_name
   hostPort                 = var.hostPort
   containerPort            = var.containerPort
-  assign_public_ip         = var.assign_public_ip
   ecr_name                 = var.ecr_name
   image_tag                = var.image_tag
 
-  vpc_id            = module.vpc.vpc_id
-  public_subnet_ids = module.vpc.public_subnet_ids
+  vpc_id             = module.vpc.vpc_id
+  public_subnet_ids  = module.vpc.public_subnet_ids
+  private_subnet_ids = module.vpc.private_subnet_ids
 
   postgres_sg_id    = module.storage.postgres_sg_id
   postgres_endpoint = module.storage.postgres_endpoint

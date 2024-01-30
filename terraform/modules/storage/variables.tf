@@ -5,6 +5,10 @@ variable "name" {
   type = string
 }
 
+variable "public" {
+  type = bool
+}
+
 #####################
 #        RDS        #
 #####################
@@ -34,6 +38,10 @@ variable "vpc_id" {
 #       SUBNET      #
 #####################
 variable "public_subnet_ids" {
+  type = list(string)
+}
+
+variable "private_subnet_ids" {
   type = list(string)
 }
 variable "database_subnet_ids" {

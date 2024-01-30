@@ -3,8 +3,8 @@ module "React_Golang_Application" {
 
   name                       = var.name
   region                     = var.region
+  public                     = var.public
   vpc_cidr                   = var.vpc_cidr
-  create_nat_gateway         = var.create_nat_gateway
   db_name                    = var.db_name
   db_username                = var.db_username
   skip_final_snapshot        = var.skip_final_snapshot

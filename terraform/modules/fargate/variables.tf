@@ -9,6 +9,10 @@ variable "region" {
   type = string
 }
 
+variable "public" {
+  type = bool
+}
+
 #####################
 #        RDS        #
 #####################
@@ -63,10 +67,6 @@ variable "containerPort" {
   type = number
 }
 
-variable "assign_public_ip" {
-  type = bool
-}
-
 #####################
 #        ECR        #
 #####################
@@ -109,6 +109,10 @@ variable "postgres_sg_id" {
 #      SUBNET       #
 #####################
 variable "public_subnet_ids" {
+  type = list(string)
+}
+
+variable "private_subnet_ids" {
   type = list(string)
 }
 

@@ -13,10 +13,10 @@ resource "aws_ecs_service" "ecs_service" {
 
   #どのサブネットに配置するか
   network_configuration {
-    subnets         = var.public_subnet_ids
+    subnets         = var.public ? var.public_subnet_ids : var.private_subnet_ids
     security_groups = [aws_security_group.service_sg.id]
     # Private Subnetに配置する場合は、以下の設定をfalseにする
-    assign_public_ip = var.assign_public_ip
+    assign_public_ip = var.public ? true : false
   }
 
   # !!!Fargateでは不要!!!

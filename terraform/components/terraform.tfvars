@@ -1,14 +1,14 @@
 name                       = ""
 region                     = "ap-northeast-1"
 vpc_cidr                   = "10.0.0.0/16"
-create_nat_gateway         = false
+public                     = true
 db_name                    = ""
 db_username                = ""
 skip_final_snapshot        = true
 environment                = ""
 internal                   = false
 enable_deletion_protection = false
-domain_name                = "marukome0909.com"
+domain_name                = "example.com"
 domain_prefix_alb          = ""
 domain_prefix_cloudfront   = ""
 s3_bucket_name             = ""
