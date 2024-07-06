@@ -13,7 +13,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o myapp .
 # migrate_executable のビルド（静的リンク）
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o migrate_executable migrate/migrate.go
 
-FROM alpine:latest
+FROM --platform=linux/arm64 alpine:latest
 
 # リポジトリの更新とca-certificatesのインストール
 RUN apk update && apk --no-cache add ca-certificates
