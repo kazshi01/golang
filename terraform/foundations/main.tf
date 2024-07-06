@@ -75,20 +75,20 @@ module "fargate" {
 
 }
 
-module "pipeline" {
-  source = "../modules/pipeline"
+# module "pipeline" {
+#   source = "../modules/pipeline"
 
-  name           = var.name
-  region         = var.region
-  container_name = var.container_name
-  containerPort  = var.containerPort
+#   name           = var.name
+#   region         = var.region
+#   container_name = var.container_name
+#   containerPort  = var.containerPort
 
-  ecs_cluster_name    = module.fargate.ecs_cluster_name
-  ecs_service_name    = module.fargate.ecs_service_name
-  task_definition_arn = module.fargate.task_definition_arn
+#   ecs_cluster_name    = module.fargate.ecs_cluster_name
+#   ecs_service_name    = module.fargate.ecs_service_name
+#   task_definition_arn = module.fargate.task_definition_arn
 
-  bule_target_group_name  = module.network.bule_target_group_name
-  green_target_group_name = module.network.green_target_group_name
-  https_listener_arn      = module.network.https_listener_arn
+#   bule_target_group_name  = module.network.bule_target_group_name
+#   green_target_group_name = module.network.green_target_group_name
+#   https_listener_arn      = module.network.https_listener_arn
 
-}
+# }
