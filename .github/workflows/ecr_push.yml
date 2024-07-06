@@ -16,6 +16,7 @@ permissions:
 env:
   AWS_REGION: ap-northeast-1 # your AWS region
   ECR_REPOSITORY: dev/practice # your ECR repository name
+  ECR_REGISTRY: 996109426400.dkr.ecr.ap-northeast-1.amazonaws.com/dev/practice # your ECR registry
 
 jobs:
   build-and-push:
@@ -51,4 +52,5 @@ jobs:
           file: ./backend/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: go-${{ github.sha }}
+          tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:go-${{ github.sha }}
+          registry: ${{ env.ECR_REGISTRY }}
