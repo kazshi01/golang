@@ -51,4 +51,4 @@ jobs:
           file: ./backend/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:go-${{ github.sha }}
+          tags: go-${{ github.sha }}
