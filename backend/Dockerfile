@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 golang:1.20 AS builder
+FROM --platform=linux/arm64 golang:1.20 AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o myapp .
 # migrate_executable のビルド（静的リンク）
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o migrate_executable migrate/migrate.go
 
-FROM --platform=linux/amd64 alpine:latest  
+FROM --platform=linux/arm64 alpine:latest  
 
 # セキュリティアップデート
 RUN apk --no-cache add ca-certificates
