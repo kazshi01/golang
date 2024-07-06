@@ -12,8 +12,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o migrate_executabl
 
 FROM --platform=linux/arm64 alpine:latest  
 
-# セキュリティアップデート
-RUN apk --no-cache add ca-certificates
+# リポジトリの更新とca-certificatesのインストール
+RUN apk update && apk --no-cache add ca-certificates
 
 WORKDIR /root/
 
