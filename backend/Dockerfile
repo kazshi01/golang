@@ -4,13 +4,16 @@ WORKDIR /app
 
 COPY ./backend .
 
+# デバッグ用に go env を追加
+RUN go env
+
 RUN go mod download
 # myapp のビルド
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o myapp .
 # migrate_executable のビルド（静的リンク）
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o migrate_executable migrate/migrate.go
 
-FROM alpine:3.14  
+FROM alpine:latest
 
 # リポジトリの更新とca-certificatesのインストール
 RUN apk update && apk --no-cache add ca-certificates
