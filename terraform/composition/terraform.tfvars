@@ -18,4 +18,4 @@ hostPort                   = 8080
 containerPort              = 8080
 assign_public_ip           = true
 ecr_name                   = "dev/practice"
-image_tag                  = "go-222d052a5e8f3f24fcea4916347eeec4a4a17155"
+image_tag                  = "go-0df8a36b988c33f3334075eb551852e5335fa7c7"

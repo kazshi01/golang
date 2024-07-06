@@ -55,3 +55,4 @@ jobs:
           tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:go-${{ github.sha }}
           registry: ${{ env.ECR_REGISTRY }}
 
+
