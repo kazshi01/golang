@@ -5,6 +5,7 @@ on:
     workflows: ['IMAGE PUSH TO ECR']
     types:
       - completed
+      - success
     branches: [feature]
 
 permissions:

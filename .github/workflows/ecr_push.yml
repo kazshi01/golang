@@ -16,7 +16,7 @@ permissions:
 env:
   AWS_REGION: ap-northeast-1 # your AWS region
   ECR_REPOSITORY: dev/practice # your ECR repository name
-  ECR_REGISTRY: 996109426400.dkr.ecr.ap-northeast-1.amazonaws.com/dev/practice # your ECR registry
+  ECR_REGISTRY: 996109426400.dkr.ecr.ap-northeast-1.amazonaws.com # your ECR registry
 
 jobs:
   build-and-push:
@@ -54,3 +54,4 @@ jobs:
           push: true
           tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:go-${{ github.sha }}
           registry: ${{ env.ECR_REGISTRY }}
+
